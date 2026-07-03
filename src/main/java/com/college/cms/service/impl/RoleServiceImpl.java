@@ -15,7 +15,6 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<Role> getAllRoles() {
-        // Yeh database ki 'role_detail' table se saare roles utha lega
         return roleRepository.findAll();
     }
 }
