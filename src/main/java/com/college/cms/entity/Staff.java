@@ -1,14 +1,17 @@
 package com.college.cms.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "staff_detail")
 public class Staff {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "staffid")
-    private String staffid;
+    private Integer staffid;
 
     @Column(name = "staffname")
     private String staffname;
@@ -37,12 +40,14 @@ public class Staff {
     @Column(name = "salary")
     private Double salary;
 
-    @Column(name = "userid")
-    private String user_id;
+    @Column(name = "user_id")
+    @JsonProperty("user_id")
+    private Integer userId;
 
-    // Getters and Setters
-    public String getStaffid() { return staffid; }
-    public void setStaffid(String staffid) { this.staffid = staffid; }
+    public Staff() {}
+
+    public Integer getStaffid() { return staffid; }
+    public void setStaffid(Integer staffid) { this.staffid = staffid; }
 
     public String getStaffname() { return staffname; }
     public void setStaffname(String staffname) { this.staffname = staffname; }
@@ -71,6 +76,6 @@ public class Staff {
     public Double getSalary() { return salary; }
     public void setSalary(Double salary) { this.salary = salary; }
 
-    public String getUser_id() { return user_id; }
-    public void setUser_id(String user_id) { this.user_id = user_id; }
+    public Integer getUserId() { return userId; }
+    public void setUserId(Integer userId) { this.userId = userId; }
 }

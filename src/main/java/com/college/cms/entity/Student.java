@@ -1,3 +1,4 @@
+
 package com.college.cms.entity;
 
 import jakarta.persistence.*;
@@ -55,3 +56,4 @@ public class Student {
     public String getRoll_no() { return roll_no; }
     public void setRoll_no(String roll_no) { this.roll_no = roll_no; }
 }
+

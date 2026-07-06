@@ -16,7 +16,6 @@ public class StudentServiceImpl implements StudentService {
     @Override
     @Transactional
     public Student saveStudent(Student student) {
-        // Yahan aap data save hone se pehle koi validation bhi add kar sakte hain
         return studentRepository.save(student);
     }
 }
