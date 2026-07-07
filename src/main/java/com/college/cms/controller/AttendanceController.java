@@ -6,22 +6,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/attendance")
-// Yahan "methods" mein OPTIONS add kiya hai, jo CORS pre-flight ke liye zaruri hai
-@CrossOrigin(origins = "http://localhost:5173", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS}, allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class AttendanceController {
 
     @Autowired
     private AttendanceService attendanceService;
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveAttendance(@RequestBody Attendance attendance) {
-        try {
-            attendanceService.saveAttendance(attendance);
-            return ResponseEntity.ok("Attendance Saved Successfully!");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
-        }
+    public ResponseEntity<Attendance> save(@RequestBody Attendance attendance) {
+        return ResponseEntity.ok(attendanceService.saveAttendance(attendance));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Attendance>> getAll() {
+        return ResponseEntity.ok(attendanceService.getAllAttendance());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Attendance> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(attendanceService.getAttendanceById(id));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Attendance> update(@PathVariable Long id, @RequestBody Attendance attendance) {
+        return ResponseEntity.ok(attendanceService.updateAttendance(id, attendance));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long id) {
+        attendanceService.deleteAttendance(id);
+        return ResponseEntity.ok("Deleted Successfully");
     }
 }
