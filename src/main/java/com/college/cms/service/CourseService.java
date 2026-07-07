@@ -1,13 +1,12 @@
 package com.college.cms.service;
 
 import com.college.cms.entity.Course;
+import java.util.List;
 
 public interface CourseService {
-
-    // Save Course
     Course saveCourse(Course course);
-
-    // Get Course By ID
+    List<Course> getAllCourses();
     Course getCourseById(Integer courseId);
-
+    Course updateCourse(Integer courseId, Course course);
+    void deleteCourse(Integer courseId);
 }
