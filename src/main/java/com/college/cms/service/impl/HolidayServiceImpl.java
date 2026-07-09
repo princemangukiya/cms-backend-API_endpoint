@@ -3,10 +3,12 @@ package com.college.cms.service.impl;
 import com.college.cms.entity.Holiday;
 import com.college.cms.repository.HolidayRepository;
 import com.college.cms.service.HolidayService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HolidayServiceImpl implements HolidayService {
@@ -25,28 +27,28 @@ public class HolidayServiceImpl implements HolidayService {
     }
 
     @Override
-    public Holiday getHolidayById(Integer holidayId) {
-        return holidayRepository.findById(holidayId).orElse(null);
+    public Optional<Holiday> getHolidayById(Integer holidayId) {
+        return holidayRepository.findById(holidayId);
     }
 
     @Override
     public Holiday updateHoliday(Integer holidayId, Holiday holiday) {
 
-        Holiday oldHoliday = holidayRepository.findById(holidayId).orElse(null);
+        Holiday existing = holidayRepository.findById(holidayId)
+                .orElseThrow(() -> new RuntimeException("Holiday Not Found"));
 
-        if (oldHoliday != null) {
+        existing.setHolidayDate(holiday.getHolidayDate());
+        existing.setHolidayName(holiday.getHolidayName());
 
-            oldHoliday.setHolidayDate(holiday.getHolidayDate());
-            oldHoliday.setHolidayName(holiday.getHolidayName());
-
-            return holidayRepository.save(oldHoliday);
-        }
-
-        return null;
+        return holidayRepository.save(existing);
     }
 
     @Override
     public void deleteHoliday(Integer holidayId) {
-        holidayRepository.deleteById(holidayId);
+
+        Holiday existing = holidayRepository.findById(holidayId)
+                .orElseThrow(() -> new RuntimeException("Holiday Not Found"));
+
+        holidayRepository.delete(existing);
     }
 }

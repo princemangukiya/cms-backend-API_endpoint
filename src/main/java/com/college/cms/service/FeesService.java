@@ -1,6 +1,7 @@
 package com.college.cms.service;
 
 import com.college.cms.entity.Fees;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +16,5 @@ public interface FeesService {
     Fees updateFees(Long id, Fees fees);
 
     void deleteFees(Long id);
+
 }

@@ -36,20 +36,6 @@ public class Payment {
     public Payment() {
     }
 
-    public Payment(Integer paymentId, Integer feeId, Integer studentId,
-                   Double paidAmount, LocalDate date,
-                   String paymentMode, String transactionId, String status) {
-
-        this.paymentId = paymentId;
-        this.feeId = feeId;
-        this.studentId = studentId;
-        this.paidAmount = paidAmount;
-        this.date = date;
-        this.paymentMode = paymentMode;
-        this.transactionId = transactionId;
-        this.status = status;
-    }
-
     public Integer getPaymentId() {
         return paymentId;
     }
@@ -113,5 +99,4 @@ public class Payment {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

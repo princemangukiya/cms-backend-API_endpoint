@@ -8,19 +8,26 @@ public class Fees {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "fee_id")
     private Long feeId;
 
+    @Column(name = "course_id")
     private Long courseId;
 
+    @Column(name = "student_id")
     private Long studentId;
 
+    @Column(name = "scholarship")
     private Double scholarship;
 
+    @Column(name = "discount_percentage")
     private Double discountPercentage;
 
+    @Column(name = "total_fees")
     private Double totalFees;
 
-    // Getters & Setters
+    public Fees() {
+    }
 
     public Long getFeeId() {
         return feeId;

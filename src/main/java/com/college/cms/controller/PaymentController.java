@@ -2,51 +2,89 @@ package com.college.cms.controller;
 
 import com.college.cms.entity.Payment;
 import com.college.cms.service.PaymentService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/payments")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class PaymentController {
 
     @Autowired
     private PaymentService paymentService;
 
-    // Save Payment
+    // ================= POST =================
+
     @PostMapping
-    public Payment savePayment(@RequestBody Payment payment) {
-        return paymentService.savePayment(payment);
+    public ResponseEntity<?> savePayment(@RequestBody Payment payment) {
+
+        if (payment.getFeeId() == null || payment.getStudentId() == null) {
+            return ResponseEntity.badRequest().body("Fee ID and Student ID are required.");
+        }
+
+        return ResponseEntity.ok(paymentService.savePayment(payment));
     }
 
-    // Get All Payments
+    // ================= GET ALL =================
+
     @GetMapping
-    public List<Payment> getAllPayments() {
-        return paymentService.getAllPayments();
+    public ResponseEntity<List<Payment>> getAllPayments() {
+        return ResponseEntity.ok(paymentService.getAllPayments());
     }
 
-    // Get Payment By ID
+    // ================= GET BY ID =================
+
     @GetMapping("/{paymentId}")
-    public Payment getPaymentById(@PathVariable Integer paymentId) {
-        return paymentService.getPaymentById(paymentId);
+    public ResponseEntity<?> getPaymentById(@PathVariable Integer paymentId) {
+
+        Optional<Payment> payment = paymentService.getPaymentById(paymentId);
+
+        if (payment.isPresent()) {
+            return ResponseEntity.ok(payment.get());
+        }
+
+        return ResponseEntity.badRequest().body("Payment Not Found");
     }
 
-    // Update Payment
+    // ================= UPDATE =================
+
     @PutMapping("/{paymentId}")
-    public Payment updatePayment(@PathVariable Integer paymentId,
-                                 @RequestBody Payment payment) {
+    public ResponseEntity<?> updatePayment(@PathVariable Integer paymentId,
+                                           @RequestBody Payment payment) {
 
-        return paymentService.updatePayment(paymentId, payment);
+        try {
+
+            Payment updated = paymentService.updatePayment(paymentId, payment);
+
+            return ResponseEntity.ok(updated);
+
+        } catch (Exception e) {
+
+            return ResponseEntity.badRequest().body("Payment Not Found");
+
+        }
     }
 
-    // Delete Payment
+    // ================= DELETE =================
+
     @DeleteMapping("/{paymentId}")
-    public String deletePayment(@PathVariable Integer paymentId) {
+    public ResponseEntity<?> deletePayment(@PathVariable Integer paymentId) {
 
-        paymentService.deletePayment(paymentId);
+        try {
 
-        return "Payment Deleted Successfully";
+            paymentService.deletePayment(paymentId);
+
+            return ResponseEntity.ok("Payment Deleted Successfully");
+
+        } catch (Exception e) {
+
+            return ResponseEntity.badRequest().body("Payment Not Found");
+
+        }
     }
 }

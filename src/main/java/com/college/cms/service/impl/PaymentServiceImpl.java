@@ -3,10 +3,12 @@ package com.college.cms.service.impl;
 import com.college.cms.entity.Payment;
 import com.college.cms.repository.PaymentRepository;
 import com.college.cms.service.PaymentService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -25,33 +27,33 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment getPaymentById(Integer paymentId) {
-        return paymentRepository.findById(paymentId).orElse(null);
+    public Optional<Payment> getPaymentById(Integer paymentId) {
+        return paymentRepository.findById(paymentId);
     }
 
     @Override
     public Payment updatePayment(Integer paymentId, Payment payment) {
 
-        Payment existingPayment = paymentRepository.findById(paymentId).orElse(null);
+        Payment existing = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("Payment Not Found"));
 
-        if (existingPayment != null) {
+        existing.setFeeId(payment.getFeeId());
+        existing.setStudentId(payment.getStudentId());
+        existing.setPaidAmount(payment.getPaidAmount());
+        existing.setDate(payment.getDate());
+        existing.setPaymentMode(payment.getPaymentMode());
+        existing.setTransactionId(payment.getTransactionId());
+        existing.setStatus(payment.getStatus());
 
-            existingPayment.setFeeId(payment.getFeeId());
-            existingPayment.setStudentId(payment.getStudentId());
-            existingPayment.setPaidAmount(payment.getPaidAmount());
-            existingPayment.setDate(payment.getDate());
-            existingPayment.setPaymentMode(payment.getPaymentMode());
-            existingPayment.setTransactionId(payment.getTransactionId());
-            existingPayment.setStatus(payment.getStatus());
-
-            return paymentRepository.save(existingPayment);
-        }
-
-        return null;
+        return paymentRepository.save(existing);
     }
 
     @Override
     public void deletePayment(Integer paymentId) {
-        paymentRepository.deleteById(paymentId);
+
+        Payment existing = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("Payment Not Found"));
+
+        paymentRepository.delete(existing);
     }
 }

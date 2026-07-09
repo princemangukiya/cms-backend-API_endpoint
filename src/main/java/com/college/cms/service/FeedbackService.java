@@ -3,6 +3,7 @@ package com.college.cms.service;
 import com.college.cms.entity.Feedback;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FeedbackService {
 
@@ -10,7 +11,7 @@ public interface FeedbackService {
 
     List<Feedback> getAllFeedback();
 
-    Feedback getFeedbackById(Integer id);
+    Optional<Feedback> getFeedbackById(Integer id);
 
     Feedback updateFeedback(Integer id, Feedback feedback);
 

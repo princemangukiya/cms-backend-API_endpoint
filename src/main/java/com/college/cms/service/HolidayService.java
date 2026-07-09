@@ -3,6 +3,7 @@ package com.college.cms.service;
 import com.college.cms.entity.Holiday;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface HolidayService {
 
@@ -10,7 +11,7 @@ public interface HolidayService {
 
     List<Holiday> getAllHoliday();
 
-    Holiday getHolidayById(Integer holidayId);
+    Optional<Holiday> getHolidayById(Integer holidayId);
 
     Holiday updateHoliday(Integer holidayId, Holiday holiday);
 

@@ -1,16 +1,20 @@
 package com.college.cms.service;
 
 import com.college.cms.entity.Exam;
-import com.college.cms.repository.ExamRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
-public class ExamService {
-    @Autowired
-    private ExamRepository repository;
+import java.util.List;
+import java.util.Optional;
 
-    public Exam saveExam(Exam exam) {
-        return repository.save(exam);
-    }
+public interface ExamService {
+
+    Exam saveExam(Exam exam);
+
+    List<Exam> getAllExams();
+
+    Optional<Exam> getExamById(Long examId);
+
+    Exam updateExam(Long examId, Exam exam);
+
+    void deleteExam(Long examId);
+
 }

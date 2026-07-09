@@ -2,46 +2,92 @@ package com.college.cms.controller;
 
 import com.college.cms.entity.Holiday;
 import com.college.cms.service.HolidayService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/holidays")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:5173")
 public class HolidayController {
 
     @Autowired
     private HolidayService holidayService;
 
+    // ================= POST =================
+
     @PostMapping
-    public Holiday saveHoliday(@RequestBody Holiday holiday) {
-        return holidayService.saveHoliday(holiday);
+    public ResponseEntity<?> saveHoliday(@RequestBody Holiday holiday) {
+
+        if (holiday.getHolidayDate() == null || holiday.getHolidayName() == null
+                || holiday.getHolidayName().trim().isEmpty()) {
+
+            return ResponseEntity.badRequest().body("Holiday Date and Holiday Name are required.");
+        }
+
+        return ResponseEntity.ok(holidayService.saveHoliday(holiday));
     }
+
+    // ================= GET ALL =================
 
     @GetMapping
-    public List<Holiday> getAllHoliday() {
-        return holidayService.getAllHoliday();
+    public ResponseEntity<List<Holiday>> getAllHoliday() {
+
+        return ResponseEntity.ok(holidayService.getAllHoliday());
     }
+
+    // ================= GET BY ID =================
 
     @GetMapping("/{holidayId}")
-    public Holiday getHolidayById(@PathVariable Integer holidayId) {
-        return holidayService.getHolidayById(holidayId);
+    public ResponseEntity<?> getHolidayById(@PathVariable Integer holidayId) {
+
+        Optional<Holiday> holiday = holidayService.getHolidayById(holidayId);
+
+        if (holiday.isPresent()) {
+            return ResponseEntity.ok(holiday.get());
+        } else {
+            return ResponseEntity.badRequest().body("Holiday Not Found");
+        }
     }
+
+    // ================= UPDATE =================
 
     @PutMapping("/{holidayId}")
-    public Holiday updateHoliday(@PathVariable Integer holidayId,
-                                 @RequestBody Holiday holiday) {
+    public ResponseEntity<?> updateHoliday(@PathVariable Integer holidayId,
+                                           @RequestBody Holiday holiday) {
 
-        return holidayService.updateHoliday(holidayId, holiday);
+        try {
+
+            Holiday updated = holidayService.updateHoliday(holidayId, holiday);
+
+            return ResponseEntity.ok(updated);
+
+        } catch (Exception e) {
+
+            return ResponseEntity.badRequest().body("Holiday Not Found");
+
+        }
     }
 
+    // ================= DELETE =================
+
     @DeleteMapping("/{holidayId}")
-    public String deleteHoliday(@PathVariable Integer holidayId) {
+    public ResponseEntity<?> deleteHoliday(@PathVariable Integer holidayId) {
 
-        holidayService.deleteHoliday(holidayId);
+        try {
 
-        return "Holiday Deleted Successfully";
+            holidayService.deleteHoliday(holidayId);
+
+            return ResponseEntity.ok("Holiday Deleted Successfully");
+
+        } catch (Exception e) {
+
+            return ResponseEntity.badRequest().body("Holiday Not Found");
+
+        }
     }
 }

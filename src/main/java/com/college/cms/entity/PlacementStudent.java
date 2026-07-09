@@ -9,29 +9,25 @@ public class PlacementStudent {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "placement_id")
     private Long placement_id;
 
+    @Column(name = "company_id")
     private Long company_id;
+
+    @Column(name = "student_id")
     private Integer student_id;
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "interview_date")
     private Date interview_date;
 
+    @Column(name = "status")
     private String status;
 
-    // Default Constructor (Required by JPA)
     public PlacementStudent() {
     }
 
-    // Parameterized Constructor
-    public PlacementStudent(Long company_id, Integer student_id, Date interview_date, String status) {
-        this.company_id = company_id;
-        this.student_id = student_id;
-        this.interview_date = interview_date;
-        this.status = status;
-    }
-
-    // Getters and Setters
     public Long getPlacement_id() {
         return placement_id;
     }

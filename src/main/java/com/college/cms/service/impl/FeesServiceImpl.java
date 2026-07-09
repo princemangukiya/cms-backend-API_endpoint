@@ -3,6 +3,7 @@ package com.college.cms.service.impl;
 import com.college.cms.entity.Fees;
 import com.college.cms.repository.FeesRepository;
 import com.college.cms.service.FeesService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,27 +32,26 @@ public class FeesServiceImpl implements FeesService {
     }
 
     @Override
-    public Fees updateFees(Long id, Fees feesDetails) {
+    public Fees updateFees(Long id, Fees fees) {
 
-        Fees existingFees = feesRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Fees not found with id: " + id));
+        Fees existing = feesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Fees Not Found"));
 
-        existingFees.setCourseId(feesDetails.getCourseId());
-        existingFees.setStudentId(feesDetails.getStudentId());
-        existingFees.setScholarship(feesDetails.getScholarship());
-        existingFees.setDiscountPercentage(feesDetails.getDiscountPercentage());
-        existingFees.setTotalFees(feesDetails.getTotalFees());
+        existing.setCourseId(fees.getCourseId());
+        existing.setStudentId(fees.getStudentId());
+        existing.setScholarship(fees.getScholarship());
+        existing.setDiscountPercentage(fees.getDiscountPercentage());
+        existing.setTotalFees(fees.getTotalFees());
 
-        return feesRepository.save(existingFees);
+        return feesRepository.save(existing);
     }
 
     @Override
     public void deleteFees(Long id) {
 
-        if (!feesRepository.existsById(id)) {
-            throw new RuntimeException("Fees not found with id: " + id);
-        }
+        Fees existing = feesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Fees Not Found"));
 
-        feesRepository.deleteById(id);
+        feesRepository.delete(existing);
     }
 }

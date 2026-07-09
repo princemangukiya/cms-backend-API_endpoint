@@ -8,19 +8,27 @@ public class CompanyPlacement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "company_id")
     private Long companyId;
 
+    @Column(name = "company_name")
     private String companyName;
+
+    @Column(name = "job_role")
     private String jobRole;
+
+    @Column(name = "location")
     private String location;
+
+    @Column(name = "package_lpa")
     private Double packageLpa;
+
+    @Column(name = "website")
     private String website;
 
-    // Default Constructor
     public CompanyPlacement() {
     }
 
-    // Getters and Setters
     public Long getCompanyId() {
         return companyId;
     }

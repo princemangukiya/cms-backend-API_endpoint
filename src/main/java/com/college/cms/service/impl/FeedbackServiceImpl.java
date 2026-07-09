@@ -3,10 +3,12 @@ package com.college.cms.service.impl;
 import com.college.cms.entity.Feedback;
 import com.college.cms.repository.FeedbackRepository;
 import com.college.cms.service.FeedbackService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FeedbackServiceImpl implements FeedbackService {
@@ -25,30 +27,30 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Feedback getFeedbackById(Integer id) {
-        return feedbackRepository.findById(id).orElse(null);
+    public Optional<Feedback> getFeedbackById(Integer id) {
+        return feedbackRepository.findById(id);
     }
 
     @Override
     public Feedback updateFeedback(Integer id, Feedback feedback) {
 
-        Feedback oldFeedback = feedbackRepository.findById(id).orElse(null);
+        Feedback existing = feedbackRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Feedback Not Found"));
 
-        if (oldFeedback != null) {
+        existing.setFeedbackFrom(feedback.getFeedbackFrom());
+        existing.setFeedbackTo(feedback.getFeedbackTo());
+        existing.setRating(feedback.getRating());
+        existing.setFeedbackMessage(feedback.getFeedbackMessage());
 
-            oldFeedback.setFeedbackFrom(feedback.getFeedbackFrom());
-            oldFeedback.setFeedbackTo(feedback.getFeedbackTo());
-            oldFeedback.setRating(feedback.getRating());
-            oldFeedback.setFeedbackMessage(feedback.getFeedbackMessage());
-
-            return feedbackRepository.save(oldFeedback);
-        }
-
-        return null;
+        return feedbackRepository.save(existing);
     }
 
     @Override
     public void deleteFeedback(Integer id) {
-        feedbackRepository.deleteById(id);
+
+        Feedback existing = feedbackRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Feedback Not Found"));
+
+        feedbackRepository.delete(existing);
     }
 }
