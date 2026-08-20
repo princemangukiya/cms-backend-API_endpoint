@@ -38,6 +38,6 @@ public class CourseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteCourse(@PathVariable Integer id) {
         courseService.deleteCourse(id);
-        return ResponseEntity.ok("Course deleted successfully");
+            return ResponseEntity.ok("Course deleted successfully");
     }
 }

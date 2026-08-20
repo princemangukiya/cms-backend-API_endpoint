@@ -68,4 +68,18 @@ public class UserServiceImpl implements UserService {
 
         return new LoginResponse(token, user);
     }
+
+    @Override
+    public User updateUserProfilePic(Long userId, String profilePic) {
+        System.out.println("========== UPDATE PROFILE PIC ==========");
+        User user = userRepository.findById(userId).orElse(null);
+        if (user != null) {
+            user.setProfile_pic(profilePic);
+            User updatedUser = userRepository.save(user);
+            System.out.println("✅ Profile picture saved in DB for user_id: " + userId);
+            return updatedUser;
+        }
+        System.out.println("❌ USER NOT FOUND FOR UPDATE");
+        return null;
+    }
 }

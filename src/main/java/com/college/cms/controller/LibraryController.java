@@ -55,8 +55,7 @@ public class LibraryController {
     // ================= UPDATE =================
 
     @PutMapping("/{bookid}")
-    public ResponseEntity<?> updateLibrary(@PathVariable Long bookid,
-                                           @RequestBody Library library) {
+    public ResponseEntity<?> updateLibrary(@PathVariable Long bookid,@RequestBody Library library) {
 
         try {
 

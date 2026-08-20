@@ -8,4 +8,6 @@ public interface UserService {
     User registerUser(User user);
 
     LoginResponse loginUser(String email, String password);
+
+    User updateUserProfilePic(Long userId, String profilePic);
 }

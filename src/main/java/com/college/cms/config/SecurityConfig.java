@@ -38,7 +38,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/users/login").permitAll()
                         .requestMatchers("/api/users/register").permitAll()
 
-                        // 👇 ADD THIS (YOUR FIX)
                         .requestMatchers("/student/**").permitAll()
                         .requestMatchers("/api/student/**").permitAll()
                         .requestMatchers("/dashboard/**").permitAll()
@@ -59,7 +58,10 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:5173",
+                "http://localhost:5174"
+        ));
 
         configuration.setAllowedMethods(Arrays.asList(
                 "GET",
@@ -88,3 +90,4 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 }
+

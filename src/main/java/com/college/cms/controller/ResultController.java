@@ -16,7 +16,7 @@ public class ResultController {
 
     @PostMapping("/save")
     public ResponseEntity<String> saveResult(@RequestBody Result result) {
-        try {
+            try {
             resultService.saveResult(result);
             return ResponseEntity.ok("Result Saved Successfully!");
         } catch (Exception e) {

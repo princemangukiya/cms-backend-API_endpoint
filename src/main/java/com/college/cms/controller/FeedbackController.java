@@ -21,7 +21,7 @@ public class FeedbackController {
     // ================= POST =================
 
     @PostMapping
-    public ResponseEntity<?> saveFeedback(@RequestBody Feedback feedback) {
+    public ResponseEntity<?> saveFeedback(@org.jetbrains.annotations.NotNull @RequestBody Feedback feedback) {
 
         if (feedback.getFeedbackFrom() == null || feedback.getFeedbackTo() == null) {
             return ResponseEntity.badRequest().body("Feedback From and Feedback To are required.");

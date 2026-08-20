@@ -20,7 +20,6 @@ public class User {
     @Column(name = "full_name")
     private String full_name;
 
-
     @Column(name = "email_id")
     private String emailId;
 
@@ -32,4 +31,7 @@ public class User {
 
     @Column(name = "role_id")
     private Long role_id;
+
+    @Column(name = "profile_pic", columnDefinition = "LONGTEXT")
+    private String profile_pic;
 }
