@@ -23,17 +23,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
-
         System.out.println("========== REGISTER ==========");
         System.out.println("Email : " + user.getEmailId());
-
-        // Plain Text Password Save
         return userRepository.save(user);
     }
 
     @Override
     public LoginResponse loginUser(String email, String password) {
-
         System.out.println("========== LOGIN SERVICE ==========");
         System.out.println("Entered Email : " + email);
         System.out.println("Entered Password : " + password);
@@ -45,10 +41,6 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
-        System.out.println("Database Email : " + user.getEmailId());
-        System.out.println("Database Password : " + user.getPassword());
-
-        // Plain Text Password Compare
         if (!user.getPassword().equals(password)) {
             System.out.println("❌ PASSWORD NOT MATCHED");
             return null;
@@ -56,15 +48,8 @@ public class UserServiceImpl implements UserService {
 
         System.out.println("✅ PASSWORD MATCHED");
 
-        UserDetails userDetails =
-                customUserDetailsService.loadUserByUsername(email);
-
-        System.out.println("UserDetails Loaded : " + userDetails.getUsername());
-
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(email);
         String token = jwtUtil.generateToken(userDetails);
-
-        System.out.println("JWT Token Generated Successfully");
-        System.out.println("===================================");
 
         return new LoginResponse(token, user);
     }
@@ -81,5 +66,23 @@ public class UserServiceImpl implements UserService {
         }
         System.out.println("❌ USER NOT FOUND FOR UPDATE");
         return null;
+    }
+
+    // NEW: Reset Password Implementation
+    @Override
+    public boolean resetPassword(String email, String newPassword) {
+        System.out.println("========== RESET PASSWORD SERVICE ==========");
+        System.out.println("Target Email : " + email);
+
+        User user = userRepository.findByEmailId(email).orElse(null);
+        if (user != null) {
+            user.setPassword(newPassword);
+            userRepository.save(user);
+            System.out.println("✅ Password successfully updated in DB for email: " + email);
+            return true;
+        }
+
+        System.out.println("❌ USER NOT FOUND FOR RESET PASSWORD");
+        return false;
     }
 }
