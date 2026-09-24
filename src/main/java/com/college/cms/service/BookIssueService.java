@@ -13,6 +13,8 @@ public interface BookIssueService {
 
     Optional<BookIssue> getBookIssueById(Long issueId);
 
+    List<BookIssue> getBookIssuesByUserId(Long userId);
+
     BookIssue updateBookIssue(Long issueId, BookIssue bookIssue);
 
     void deleteBookIssue(Long issueId);

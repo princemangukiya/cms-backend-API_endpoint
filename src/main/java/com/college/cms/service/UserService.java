@@ -13,4 +13,7 @@ public interface UserService {
 
     // NEW: Reset Password Method
     boolean resetPassword(String email, String newPassword);
+
+    // Get all users for name lookups
+    java.util.List<User> getAllUsers();
 }

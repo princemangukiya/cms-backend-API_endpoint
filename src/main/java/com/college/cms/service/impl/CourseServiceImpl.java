@@ -23,12 +23,31 @@ public class CourseServiceImpl implements CourseService {
     public Course getCourseById(Integer courseId) { return courseRepository.findById(courseId).orElse(null); }
 
     @Override
-    public Course updateCourse(Integer courseId, Course course) {
-        if (courseRepository.existsById(courseId)) {
-            course.setCourseId(courseId);
-            return courseRepository.save(course);
-        }
-        return null;
+    public Course updateCourse(Integer courseId, Course updated) {
+        return courseRepository.findById(courseId).map(existing -> {
+            if (updated.getCourseName() != null && !updated.getCourseName().trim().isEmpty()) {
+                existing.setCourseName(updated.getCourseName().trim());
+            }
+            if (updated.getSemester() != null && !updated.getSemester().trim().isEmpty()) {
+                existing.setSemester(updated.getSemester().trim());
+            }
+            if (updated.getCourseFee() != null) {
+                existing.setCourseFee(updated.getCourseFee());
+            }
+            if (updated.getCredits() != null) {
+                existing.setCredits(updated.getCredits());
+            }
+            if (updated.getDepartment() != null) {
+                existing.setDepartment(updated.getDepartment());
+            }
+            if (updated.getCourseCode() != null) {
+                existing.setCourseCode(updated.getCourseCode());
+            }
+            if (updated.getDescription() != null) {
+                existing.setDescription(updated.getDescription());
+            }
+            return courseRepository.save(existing);
+        }).orElse(null);
     }
 
     @Override

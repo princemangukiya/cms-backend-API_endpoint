@@ -1,5 +1,7 @@
 package com.college.cms.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -75,5 +77,44 @@ public class Fees {
 
     public void setTotalFees(Double totalFees) {
         this.totalFees = totalFees;
+    }
+
+    @Transient
+    @JsonProperty("paid_amount")
+    @JsonAlias({"paidAmount", "paid_amount"})
+    private Double paidAmount = 0.0;
+
+    @Transient
+    @JsonProperty("pending_due")
+    @JsonAlias({"pendingDue", "pending_due"})
+    private Double pendingDue = 0.0;
+
+    @Transient
+    @JsonProperty("payment_status")
+    @JsonAlias({"paymentStatus", "payment_status", "status"})
+    private String paymentStatus = "Pending";
+
+    public Double getPaidAmount() {
+        return paidAmount != null ? paidAmount : 0.0;
+    }
+
+    public void setPaidAmount(Double paidAmount) {
+        this.paidAmount = paidAmount;
+    }
+
+    public Double getPendingDue() {
+        return pendingDue != null ? pendingDue : 0.0;
+    }
+
+    public void setPendingDue(Double pendingDue) {
+        this.pendingDue = pendingDue;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus != null ? paymentStatus : "Pending";
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }

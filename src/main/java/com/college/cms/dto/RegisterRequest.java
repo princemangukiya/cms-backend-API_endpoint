@@ -14,4 +14,5 @@ public class RegisterRequest {
     private String password;
 
     private Long role_id;
+    private String authCode;
 }

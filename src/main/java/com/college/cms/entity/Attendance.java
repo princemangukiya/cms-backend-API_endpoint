@@ -13,11 +13,9 @@ public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long attendanceid;
 
-    // Frontend se 'yyyy-MM-dd' format mein date aayegi
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate attendancedate;
 
-    // Frontend se 'HH:mm' format mein time aayega
     @JsonFormat(pattern = "HH:mm")
     private LocalTime intime;
 
@@ -25,6 +23,9 @@ public class Attendance {
     private LocalTime outtime;
 
     private Integer userid;
+
+    // 🟢 Naya field: Yeh store karega ki attendance kisne add ki (jaise HOD, Professor, Principal ki email/username)
+    private String addedBy;
 
     // Default Constructor
     public Attendance() {}
@@ -44,4 +45,7 @@ public class Attendance {
 
     public Integer getUserid() { return userid; }
     public void setUserid(Integer userid) { this.userid = userid; }
+
+    public String getAddedBy() { return addedBy; }
+    public void setAddedBy(String addedBy) { this.addedBy = addedBy; }
 }

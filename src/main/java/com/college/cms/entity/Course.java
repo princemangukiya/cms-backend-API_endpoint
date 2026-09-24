@@ -24,6 +24,22 @@ public class Course {
     @JsonProperty("course_fee")
     private Double courseFee;
 
+    @Column(name = "credits")
+    @JsonProperty("credits")
+    private String credits;
+
+    @Column(name = "department")
+    @JsonProperty("department")
+    private String department;
+
+    @Column(name = "course_code")
+    @JsonProperty("course_code")
+    private String courseCode;
+
+    @Column(name = "description")
+    @JsonProperty("description")
+    private String description;
+
     public Course() {}
 
     // Getters and Setters
@@ -35,4 +51,16 @@ public class Course {
     public void setSemester(String semester) { this.semester = semester; }
     public Double getCourseFee() { return courseFee; }
     public void setCourseFee(Double courseFee) { this.courseFee = courseFee; }
+
+    public String getCredits() { return credits; }
+    public void setCredits(String credits) { this.credits = credits; }
+
+    public String getDepartment() { return department; }
+    public void setDepartment(String department) { this.department = department; }
+
+    public String getCourseCode() { return courseCode; }
+    public void setCourseCode(String courseCode) { this.courseCode = courseCode; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 }

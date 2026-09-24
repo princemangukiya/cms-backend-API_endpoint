@@ -22,6 +22,9 @@ public class Student {
     private Integer user_id;
     private String roll_no;
 
+    @Column(name = "course_id")
+    private Integer course_id;
+
     // Getters and Setters (Manual)
     public Long getStudent_id() { return student_id; }
     public void setStudent_id(Long student_id) { this.student_id = student_id; }
@@ -55,5 +58,8 @@ public class Student {
 
     public String getRoll_no() { return roll_no; }
     public void setRoll_no(String roll_no) { this.roll_no = roll_no; }
+
+    public Integer getCourse_id() { return course_id; }
+    public void setCourse_id(Integer course_id) { this.course_id = course_id; }
 }
 

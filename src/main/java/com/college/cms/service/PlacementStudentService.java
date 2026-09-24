@@ -11,6 +11,10 @@ public interface PlacementStudentService {
 
     List<PlacementStudent> getAllPlacements();
 
+    List<PlacementStudent> getPlacementsByStudentId(Integer studentId);
+
+    List<PlacementStudent> getPlacementsByStudentIds(List<Integer> studentIds);
+
     Optional<PlacementStudent> getPlacementById(Long placementId);
 
     PlacementStudent updatePlacement(Long placementId, PlacementStudent placement);

@@ -15,12 +15,37 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public Attendance saveAttendance(Attendance attendance) {
+        // Yahan se purane records delete karne wala code hata diya hai
+        // taaki ab saari history (aaj ki, kal ki, purani) save rahe aur user sab dekh sake.
         return attendanceRepository.save(attendance);
     }
 
     @Override
     public List<Attendance> getAllAttendance() {
         return attendanceRepository.findAll();
+    }
+
+    @Override
+    public List<Attendance> getAttendanceByAddedBy(String addedBy) {
+        return attendanceRepository.findByAddedBy(addedBy);
+    }
+
+    @Override
+    public List<Attendance> getAttendanceByUserId(Long userid) {
+        return attendanceRepository.findByUserid(userid != null ? userid.intValue() : null);
+    }
+
+    @Override
+    public List<Attendance> getAttendanceByUserIdOrAddedBy(Long userid, String addedBy) {
+        Integer uId = userid != null ? userid.intValue() : null;
+        if (uId != null && addedBy != null && !addedBy.trim().isEmpty()) {
+            return attendanceRepository.findByUseridOrAddedBy(uId, addedBy);
+        } else if (uId != null) {
+            return attendanceRepository.findByUserid(uId);
+        } else if (addedBy != null && !addedBy.trim().isEmpty()) {
+            return attendanceRepository.findByAddedBy(addedBy);
+        }
+        return List.of();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.college.cms.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,16 +22,27 @@ public class Exam {
     private String exam_type;
 
     @Column(name = "exam_start_date")
+    @JsonAlias({"exam_date", "examDate", "startDate", "date"})
     private LocalDate exam_start_date;
 
-    @Column(name = "exam_end_date")
-    private LocalDate exam_end_date;
+    @Column(name = "exam_start_time")
+    @JsonAlias({"start_time", "startTime", "exam_time"})
+    private LocalTime exam_start_time;
 
-    @Column(name = "exam_time")
-    private LocalTime exam_time;
+    @Column(name = "exam_end_time")
+    @JsonAlias({"end_time", "endTime"})
+    private LocalTime exam_end_time;
 
     @Column(name = "subject_id")
     private Integer subject_id;
+
+    @Transient
+    @JsonProperty("course_name")
+    private String course_name;
+
+    @Transient
+    @JsonProperty("subject_name")
+    private String subject_name;
 
     public Exam() {
     }
@@ -58,6 +71,18 @@ public class Exam {
         this.exam_type = exam_type;
     }
 
+    @Transient
+    @JsonProperty("exam_name")
+    public String getExam_name() {
+        return this.exam_type;
+    }
+
+    public void setExam_name(String exam_name) {
+        if (this.exam_type == null || this.exam_type.trim().isEmpty()) {
+            this.exam_type = exam_name;
+        }
+    }
+
     public LocalDate getExam_start_date() {
         return exam_start_date;
     }
@@ -66,20 +91,20 @@ public class Exam {
         this.exam_start_date = exam_start_date;
     }
 
-    public LocalDate getExam_end_date() {
-        return exam_end_date;
+    public LocalTime getExam_start_time() {
+        return exam_start_time;
     }
 
-    public void setExam_end_date(LocalDate exam_end_date) {
-        this.exam_end_date = exam_end_date;
+    public void setExam_start_time(LocalTime exam_start_time) {
+        this.exam_start_time = exam_start_time;
     }
 
-    public LocalTime getExam_time() {
-        return exam_time;
+    public LocalTime getExam_end_time() {
+        return exam_end_time;
     }
 
-    public void setExam_time(LocalTime exam_time) {
-        this.exam_time = exam_time;
+    public void setExam_end_time(LocalTime exam_end_time) {
+        this.exam_end_time = exam_end_time;
     }
 
     public Integer getSubject_id() {
@@ -88,5 +113,66 @@ public class Exam {
 
     public void setSubject_id(Integer subject_id) {
         this.subject_id = subject_id;
+    }
+
+    // --- Compatibility helper getters/setters ---
+    public LocalDate getExam_date() {
+        return exam_start_date;
+    }
+
+    public void setExam_date(LocalDate exam_date) {
+        this.exam_start_date = exam_date;
+    }
+
+    public LocalTime getStart_time() {
+        return exam_start_time;
+    }
+
+    public void setStart_time(LocalTime start_time) {
+        this.exam_start_time = start_time;
+    }
+
+    public LocalTime getEnd_time() {
+        return exam_end_time;
+    }
+
+    public void setEnd_time(LocalTime end_time) {
+        this.exam_end_time = end_time;
+    }
+
+    @JsonProperty("course_name")
+    public String getCourse_name() {
+        return course_name;
+    }
+
+    @JsonProperty("courseName")
+    public String getCourseName() {
+        return course_name;
+    }
+
+    public void setCourse_name(String course_name) {
+        this.course_name = course_name;
+    }
+
+    public void setCourseName(String courseName) {
+        this.course_name = courseName;
+    }
+
+    @JsonProperty("subject_name")
+    public String getSubject_name() {
+        return subject_name;
+    }
+
+    @JsonProperty("subjectName")
+    public String getSubjectName() {
+        return subject_name;
+    }
+
+    public void setSubject_name(String subject_name) {
+        this.subject_name = subject_name;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subject_name = subjectName;
     }
 }

@@ -1,5 +1,6 @@
 package com.college.cms.entity;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -30,4 +31,29 @@ public class Subject {
 
     @Column(name = "exam_id")
     private Integer examId;
+
+    @Column(name = "staff_id")
+    @JsonProperty("staff_id")
+    @JsonAlias({"staffId", "staff_id", "professor_id", "professorId"})
+    private Integer staffId;
+
+    @Transient
+    @JsonProperty("course_name")
+    @JsonAlias({"courseName", "course_name"})
+    private String courseName;
+
+    @Transient
+    @JsonProperty("exam_name")
+    @JsonAlias({"examName", "exam_name"})
+    private String examName;
+
+    @Transient
+    @JsonProperty("exam_type")
+    @JsonAlias({"examType", "exam_type"})
+    private String examType;
+
+    @Transient
+    @JsonProperty("staff_name")
+    @JsonAlias({"staffName", "staff_name", "professor_name", "professorName"})
+    private String staffName;
 }

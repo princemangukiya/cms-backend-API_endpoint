@@ -3,6 +3,10 @@ package com.college.cms.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "staff_detail")
@@ -44,6 +48,14 @@ public class Staff {
     @JsonProperty("user_id")
     private Integer userId;
 
+    @Column(name = "course_id")
+    @JsonProperty("course_id")
+    private Integer courseId;
+
+    @Column(name = "course_ids")
+    @JsonProperty("course_ids")
+    private String courseIds;
+
     public Staff() {}
 
     public Integer getStaffid() { return staffid; }
@@ -78,4 +90,28 @@ public class Staff {
 
     public Integer getUserId() { return userId; }
     public void setUserId(Integer userId) { this.userId = userId; }
+
+    public Integer getCourseId() { return courseId; }
+    public void setCourseId(Integer courseId) { this.courseId = courseId; }
+
+    public String getCourseIds() { return courseIds; }
+    public void setCourseIds(String courseIds) { this.courseIds = courseIds; }
+
+    public List<Integer> getAllCourseIds() {
+        Set<Integer> set = new LinkedHashSet<>();
+        if (courseId != null) {
+            set.add(courseId);
+        }
+        if (courseIds != null && !courseIds.trim().isEmpty()) {
+            for (String part : courseIds.split(",")) {
+                try {
+                    String trimmed = part.trim();
+                    if (!trimmed.isEmpty()) {
+                        set.add(Integer.parseInt(trimmed));
+                    }
+                } catch (NumberFormatException ignored) {}
+            }
+        }
+        return new ArrayList<>(set);
+    }
 }

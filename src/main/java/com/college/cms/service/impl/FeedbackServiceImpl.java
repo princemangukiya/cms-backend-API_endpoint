@@ -3,7 +3,6 @@ package com.college.cms.service.impl;
 import com.college.cms.entity.Feedback;
 import com.college.cms.repository.FeedbackRepository;
 import com.college.cms.service.FeedbackService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +32,6 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public Feedback updateFeedback(Integer id, Feedback feedback) {
-
         Feedback existing = feedbackRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Feedback Not Found"));
 
@@ -47,10 +45,14 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public void deleteFeedback(Integer id) {
-
         Feedback existing = feedbackRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Feedback Not Found"));
 
         feedbackRepository.delete(existing);
+    }
+
+    @Override
+    public List<Feedback> getFeedbacksForUser(Integer userId) {
+        return feedbackRepository.findByFeedbackTo(userId);
     }
 }

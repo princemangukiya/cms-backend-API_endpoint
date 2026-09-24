@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/companyplacements")
-@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/api/placements")
+@CrossOrigin(origins = {"http://localhost:5173", "http://localhost:5174"})
 public class CompanyPlacementController {
 
     @Autowired
@@ -70,7 +70,7 @@ public class CompanyPlacementController {
 
         } catch (Exception e) {
 
-            return ResponseEntity.badRequest().body("Company Not Found");
+            return ResponseEntity.badRequest().body("Company Not Found"); // <-- Yahan badCode() ki jagah badRequest() kar diya hai
         }
     }
 

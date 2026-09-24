@@ -7,6 +7,7 @@ import com.college.cms.service.PlacementStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,20 @@ public class PlacementStudentServiceImpl implements PlacementStudentService {
     @Override
     public List<PlacementStudent> getAllPlacements() {
         return placementStudentRepository.findAll();
+    }
+
+    @Override
+    public List<PlacementStudent> getPlacementsByStudentId(Integer studentId) {
+        if (studentId == null) return Collections.emptyList();
+        return placementStudentRepository.findByStudentId(studentId);
+    }
+
+    @Override
+    public List<PlacementStudent> getPlacementsByStudentIds(List<Integer> studentIds) {
+        if (studentIds == null || studentIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return placementStudentRepository.findByStudentIdIn(studentIds);
     }
 
     @Override

@@ -1,5 +1,3 @@
-//jwtutil ka code
-
 package com.college.cms.util;
 
 import io.jsonwebtoken.Claims;
@@ -45,15 +43,12 @@ public class JwtUtil {
 
     // Generic claim extractor
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-
         final Claims claims = extractAllClaims(token);
-
         return claimsResolver.apply(claims);
     }
 
     // All claims
     private Claims extractAllClaims(String token) {
-
         return Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
@@ -63,21 +58,17 @@ public class JwtUtil {
 
     // Expired?
     private boolean isTokenExpired(String token) {
-
         return extractExpiration(token).before(new Date());
     }
 
     // Generate Token
     public String generateToken(UserDetails userDetails) {
-
         Map<String, Object> claims = new HashMap<>();
-
         return createToken(claims, userDetails.getUsername());
     }
 
     // Create Token
     private String createToken(Map<String, Object> claims, String subject) {
-
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
@@ -89,9 +80,7 @@ public class JwtUtil {
 
     // Validate Token
     public boolean validateToken(String token, UserDetails userDetails) {
-
         final String username = extractUsername(token);
-
         return username.equals(userDetails.getUsername())
                 && !isTokenExpired(token);
     }

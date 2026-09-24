@@ -43,6 +43,12 @@ public class StudentServiceImpl implements StudentService {
             existingStudent.setEmail(student.getEmail());
             existingStudent.setStatus(student.getStatus());
             existingStudent.setRoll_no(student.getRoll_no());
+            if (student.getAdmission_date() != null) {
+                existingStudent.setAdmission_date(student.getAdmission_date());
+            }
+            if (student.getCourse_id() != null) {
+                existingStudent.setCourse_id(student.getCourse_id());
+            }
             return studentRepository.save(existingStudent);
         }).orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
     }

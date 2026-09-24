@@ -20,10 +20,42 @@ public class UserController {
 
     // Register User
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody User user) {
         System.out.println("========== REGISTER API HIT ==========");
-        User savedUser = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        try {
+            User savedUser = userService.registerUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        } catch (SecurityException se) {
+            System.err.println("Security exception on register: " + se.getMessage());
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
+                "error", "UNAUTHORIZED_ROLE_REGISTRATION",
+                "message", se.getMessage()
+            ));
+        } catch (IllegalArgumentException iae) {
+            System.err.println("Duplicate or invalid registration argument: " + iae.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                "error", "DUPLICATE_EMAIL",
+                "message", iae.getMessage()
+            ));
+        } catch (org.springframework.dao.DataIntegrityViolationException dive) {
+            System.err.println("Data integrity violation on register: " + dive.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                "error", "DUPLICATE_ENTRY",
+                "message", "This Email Address or Mobile Number is already registered! Please log in or use a different email address."
+            ));
+        } catch (Exception e) {
+            System.err.println("Registration error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(
+                "error", "REGISTRATION_FAILED",
+                "message", e.getMessage()
+            ));
+        }
+    }
+
+    // Get All Users for ID & Name Lookups
+    @GetMapping({"", "/all"})
+    public ResponseEntity<java.util.List<User>> getAllUsers() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     // Login User
@@ -60,7 +92,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
 
-    // NEW: Forgot Password API
+    // Forgot Password API
     @PostMapping("/forgot-password")
     public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> request) {
         String email = request.get("email");

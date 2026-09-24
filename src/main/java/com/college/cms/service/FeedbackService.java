@@ -17,4 +17,5 @@ public interface FeedbackService {
 
     void deleteFeedback(Integer id);
 
+    List<Feedback> getFeedbacksForUser(Integer userId);
 }

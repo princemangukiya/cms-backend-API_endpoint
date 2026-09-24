@@ -34,4 +34,21 @@ public class User {
 
     @Column(name = "profile_pic", columnDefinition = "LONGTEXT")
     private String profile_pic;
+
+    // Transient field for registration role authorization verification
+    @Transient
+    private String authCode;
+
+    // Explicit getter taaki kabhi error na aaye
+    public Long getRoleId() {
+        return this.role_id;
+    }
+
+    public String getAuthCode() {
+        return this.authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
+    }
 }

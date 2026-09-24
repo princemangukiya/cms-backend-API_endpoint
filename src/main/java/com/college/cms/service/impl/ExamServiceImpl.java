@@ -40,8 +40,8 @@ public class ExamServiceImpl implements ExamService {
         existing.setCourse_id(exam.getCourse_id());
         existing.setExam_type(exam.getExam_type());
         existing.setExam_start_date(exam.getExam_start_date());
-        existing.setExam_end_date(exam.getExam_end_date());
-        existing.setExam_time(exam.getExam_time());
+        existing.setExam_start_time(exam.getExam_start_time());
+        existing.setExam_end_time(exam.getExam_end_time());
         existing.setSubject_id(exam.getSubject_id());
 
         return repository.save(existing);
